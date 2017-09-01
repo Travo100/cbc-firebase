@@ -46,4 +46,6 @@ $(document).on("click", ".edit", function(e){
 $(document).on("click", ".delete", function(e){
     e.preventDefault()
     var buttonId = $(this).attr("data-movie-id");
+    $(this).closest('tr').remove();
+    database.ref("/movies/"+buttonId).remove();
 });
