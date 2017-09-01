@@ -12,7 +12,28 @@
     <title>CBC Firebase Demo</title>
 </head>
 <body>
-    
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center">Firebase CRUD Operations</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-push-4">
+                <h2>Create!</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fav-movie">Favorite Movie:</label>
+                        <input type="text" class="form-control" id="fav-movie" required>
+                    </div>
+                    <button type="submit" class="btn btn-default" id="submit-form">Submit</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
     <script src="assets/js/config.js"></script>
     <script src="assets/js/app.js"></script>    
 </body>
