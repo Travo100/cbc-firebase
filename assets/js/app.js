@@ -17,7 +17,7 @@ $("#submit-form").on("click", function(e){
 
 });
 
-$("#submit-edit-form").on("click", function(e){
+$("#submit-update-form").on("click", function(e){
 
         // prevent the form from submitting on default
         e.preventDefault();
@@ -49,14 +49,14 @@ database.ref("/movies").on("child_added", function(snap){
         "favMovie": snap.val().favMovie
     };
 
-    //put the data into a strong before attaching it to the edit button
+    //put the data into a strong before attaching it to the update button
     var snapDataString = JSON.stringify(snapData);
     
     //add the record to the table
     var tableData = "<tr class="+snapData.id+"><td>"+snapData.id+"</td>";
     tableData += "<td class='snap-name'>"+snapData.name+"</td>";
     tableData += "<td class='snap-movie'>"+snapData.favMovie+"</td>";
-    tableData += "<td><button class='btn btn-default edit snap-edit-button' data-movie-object='"+snapDataString+"' data-target='#myModal' data-toggle='modal'>Edit</button></td>";
+    tableData += "<td><button class='btn btn-default edit snap-update-button' data-movie-object='"+snapDataString+"' data-target='#myModal' data-toggle='modal'>Update</button></td>";
     tableData += "<td><button class='btn btn-danger delete' data-movie-id="+snapData.id+">Delete</button></td></tr>";
     
     $(".table").append(tableData);
@@ -74,20 +74,20 @@ database.ref("/movies").on("child_changed", function(snap){
         "favMovie": snap.val().favMovie
     };
 
-    //put the data into a strong before attaching it to the edit button
+    //put the data into a strong before attaching it to the update button
     var snapDataString = JSON.stringify(snapData);
     
     // use the class name then target the .snap-name and .snap-movie of 
     // that class 
     $(snapId + " .snap-name").text(snapData.name);
     $(snapId + " .snap-movie").text(snapData.favMovie);
-    $(snapId + " .snap-edit-button").attr("data-movie-object", snapDataString);
+    $(snapId + " .snap-update-button").attr("data-movie-object", snapDataString);
 });
 
 $(document).on("click", ".edit", function(e){
     e.preventDefault()
     var snapObject = JSON.parse($(this).attr("data-movie-object"));
-    $("#myModalLabel").text("Edit " + snapObject.name);
+    $("#myModalLabel").text("Update " + snapObject.name);
     $("#name-modal").val(snapObject.name);
     $("#fav-movie-modal").val(snapObject.favMovie);
     updateId = snapObject.id;
