@@ -5,43 +5,33 @@ $("#submit-form").on("click", function(e){
     // prevent the form from submitting on default
     e.preventDefault();
 
-    // get the name and favMovie values from the input fields
-    var name = $("#name").val().trim();
-    var favMovie = $("#fav-movie").val().trim();
-
     // Push the name and favMovie for someone to the movies collection
     database.ref("/movies").push({
-        name: name,
-        favMovie: favMovie
+        name: $("#name").val().trim(),
+        favMovie: $("#fav-movie").val().trim()
     });
 
     //clear out the values of name and favMovie 
     $("#name").val("");
     $("#fav-movie").val("");
 
-    alert("Item added!");
 });
 
 $("#submit-edit-form").on("click", function(e){
-    
+
         // prevent the form from submitting on default
         e.preventDefault();
     
-        // get the name and favMovie values from the input fields
-        var name = $("#name-modal").val().trim();
-        var favMovie = $("#fav-movie-modal").val().trim();
-
+        // using postData object to store the name and the movie
         var postData = {
-            name: name,
-            favMovie: favMovie
+            name: $("#name-modal").val().trim(),
+            favMovie: $("#fav-movie-modal").val().trim()
         };
 
-        console.log(postData);
-
-        var newPostKey = database.ref().child('movies').push().key;
-
+        //hide our modal 
         $('#myModal').modal('hide');
-        // Write the new post's data simultaneously in the posts list and the user's post list.
+        
+        // Update the child by its id ex: /collectionName/id
         var updates = {};
         updates['/movies/' + updateId] = postData;
 
@@ -49,33 +39,49 @@ $("#submit-edit-form").on("click", function(e){
 
     });
 
-// 
+//watcher for when children are added and adds all children up intially
 database.ref("/movies").on("child_added", function(snap){
-    var snapName = snap.val().name;
-    var snapFavMovie = snap.val().favMovie;
-    var snapId = snap.key;
 
+    //store all the values in an object
     var snapData = {
-        "id": snapId,
-        "name": snapName,
-        "favMovie": snapFavMovie
+        "id": snap.key,
+        "name": snap.val().name,
+        "favMovie": snap.val().favMovie
     };
 
+    //put the data into a strong before attaching it to the edit button
     var snapDataString = JSON.stringify(snapData);
     
-    var tableData = "<tr class="+snapId+"><td>"+snapId+"</td>";
-    tableData += "<td class='snap-name'>"+snapName+"</td>";
-    tableData += "<td class='snap-movie'>"+snapFavMovie+"</td>";
-    tableData += "<td><button class='btn btn-default edit' data-movie-object="+snapDataString+" data-target='#myModal' data-toggle='modal'>Edit</button></td>";
-    tableData += "<td><button class='btn btn-danger delete' data-movie-id="+snapId+">Delete</button></td></tr>";
+    //add the record to the table
+    var tableData = "<tr class="+snapData.id+"><td>"+snapData.id+"</td>";
+    tableData += "<td class='snap-name'>"+snapData.name+"</td>";
+    tableData += "<td class='snap-movie'>"+snapData.favMovie+"</td>";
+    tableData += "<td><button class='btn btn-default edit snap-edit-button' data-movie-object='"+snapDataString+"' data-target='#myModal' data-toggle='modal'>Edit</button></td>";
+    tableData += "<td><button class='btn btn-danger delete' data-movie-id="+snapData.id+">Delete</button></td></tr>";
     
     $(".table").append(tableData);
 });
 
+//listen for when a child has changed 
 database.ref("/movies").on("child_changed", function(snap){
+    //get the class of that child based of it's key
     var snapId = "." + snap.key;
-    $(snapId + " .snap-name").text(snap.val().name);
-    $(snapId + " .snap-movie").text(snap.val().favMovie);
+
+    //store all the values in an object
+    var snapData = {
+        "id": snap.key,
+        "name": snap.val().name,
+        "favMovie": snap.val().favMovie
+    };
+
+    //put the data into a strong before attaching it to the edit button
+    var snapDataString = JSON.stringify(snapData);
+    
+    // use the class name then target the .snap-name and .snap-movie of 
+    // that class 
+    $(snapId + " .snap-name").text(snapData.name);
+    $(snapId + " .snap-movie").text(snapData.favMovie);
+    $(snapId + " .snap-edit-button").attr("data-movie-object", snapDataString);
 });
 
 $(document).on("click", ".edit", function(e){

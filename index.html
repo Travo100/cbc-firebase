@@ -22,10 +22,10 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <h2>Create!</h2>
+                <h3>Create</h3>
                 <form>
                     <div class="form-group">
-                        <label for="name">Name</label>
+                        <label for="name">Name:</label>
                         <input type="text" class="form-control" id="name" required>
                     </div>
                     <div class="form-group">
@@ -35,9 +35,8 @@
                     <button type="submit" class="btn btn-default" id="submit-form">Submit</button>
                 </form>
             </div>
-
             <div class="col-md-7 col-md-push-1">
-                <h2>Read!</h2>
+                <h3>Read/Update/Delete</h3>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -52,10 +51,7 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
-
-        <!-- Button trigger modal -->
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -66,20 +62,18 @@
                     </div>
                     <form>
                         <div class="modal-body">
-
                             <div class="form-group">
-                                <label for="name">Name</label>
+                                <label for="name">Name:</label>
                                 <input type="text" class="form-control" id="name-modal" required>
                             </div>
                             <div class="form-group">
                                 <label for="fav-movie">Favorite Movie:</label>
                                 <input type="text" class="form-control" id="fav-movie-modal" required>
                             </div>
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="submit-edit-form">Save changes</button>
+                            <button type="submit" class="btn btn-primary" id="submit-edit-form">Save changes</button>
                         </div>
                     </form>
                 </div>
@@ -88,5 +82,4 @@
         <script src="assets/js/config.js"></script>
         <script src="assets/js/app.js"></script>
 </body>
-
 </html>
