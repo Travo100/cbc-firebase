@@ -49,7 +49,22 @@ database.ref("/movies").on("child_added", function(snap){
         "favMovie": snap.val().favMovie
     };
 
-    //put the data into a strong before attaching it to the update button
+    /* 
+    ===========================================
+    Fails is input contains a single quote.
+    Test input: {
+      name: "Test",
+      favMovie: "Someone's test may fail"
+    }
+    Produces an edit button like this:
+    <button class="btn btn-default edit snap-update-button"
+    data-movie-object="{"id":"-L0AC7FwlblJOhLozxY6","name":"Test","favMovie":"Someone" s="" test="" may="" fail"}'="" data-target="#myModal" data-toggle="modal">Update</button>
+    
+    When the edit button is clicked, the app crashes on a syntax error when trying to parse the json string for data-movie-object
+    ===========================================
+    */
+
+    //put the data into a string before attaching it to the update button
     var snapDataString = JSON.stringify(snapData);
     
     //add the record to the table
@@ -74,7 +89,7 @@ database.ref("/movies").on("child_changed", function(snap){
         "favMovie": snap.val().favMovie
     };
 
-    //put the data into a strong before attaching it to the update button
+    //put the data into a string before attaching it to the update button
     var snapDataString = JSON.stringify(snapData);
     
     // use the class name then target the .snap-name and .snap-movie of 
@@ -84,8 +99,14 @@ database.ref("/movies").on("child_changed", function(snap){
     $(snapId + " .snap-update-button").attr("data-movie-object", snapDataString);
 });
 
+// listen for when a child is removed
+database.ref("/movies").on("child_removed", function(snap) {
+  // get class based on the child's key and remove the element
+  $('.' + snap.key).remove();  
+});
+
 $(document).on("click", ".edit", function(e){
-    e.preventDefault()
+    e.preventDefault();
     var snapObject = JSON.parse($(this).attr("data-movie-object"));
     $("#myModalLabel").text("Update " + snapObject.name);
     $("#name-modal").val(snapObject.name);
@@ -96,6 +117,5 @@ $(document).on("click", ".edit", function(e){
 $(document).on("click", ".delete", function(e){
     e.preventDefault()
     var buttonId = $(this).attr("data-movie-id");
-    $(this).closest('tr').remove();
     database.ref("/movies/"+buttonId).remove();
 });
