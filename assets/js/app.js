@@ -112,3 +112,15 @@ $(document).on("click", ".delete", function (e) {
     var buttonId = $(this).attr("data-movie-id");
     database.ref("/movies/" + buttonId).remove();
 });
+
+$("#submit-search").on("click", function(e){
+    e.preventDefault();
+    var movieTitle = $("#search-item").val().trim();
+    searchForMovieByTitle(movieTitle);
+});
+
+function searchForMovieByTitle(title) {
+    database.ref("/movies").orderByChild("favMovie").equalTo(title).on("child_added", function(snapshot){
+        console.log(snapshot.val());
+    });
+}
