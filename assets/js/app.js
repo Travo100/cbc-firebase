@@ -49,21 +49,6 @@ database.ref("/movies").on("child_added", function(snap){
         "favMovie": snap.val().favMovie
     };
 
-    /* 
-    ===========================================
-    Fails is input contains a single quote.
-    Test input: {
-      name: "Test",
-      favMovie: "Someone's test may fail"
-    }
-    Produces an edit button like this:
-    <button class="btn btn-default edit snap-update-button"
-    data-movie-object="{"id":"-L0AC7FwlblJOhLozxY6","name":"Test","favMovie":"Someone" s="" test="" may="" fail"}'="" data-target="#myModal" data-toggle="modal">Update</button>
-    
-    When the edit button is clicked, the app crashes on a syntax error when trying to parse the json string for data-movie-object
-    ===========================================
-    */
-
     //put the data into a string before attaching it to the update button
     var snapDataString = JSON.stringify(snapData);
     
@@ -71,7 +56,7 @@ database.ref("/movies").on("child_added", function(snap){
     var tableData = "<tr class="+snapData.id+"><td>"+snapData.id+"</td>";
     tableData += "<td class='snap-name'>"+snapData.name+"</td>";
     tableData += "<td class='snap-movie'>"+snapData.favMovie+"</td>";
-    tableData += "<td><button class='btn btn-default edit snap-update-button' data-movie-object='"+snapDataString+"' data-target='#myModal' data-toggle='modal'>Update</button></td>";
+    tableData += "<td><button class='btn btn-info edit snap-update-button' data-movie-object='"+snapDataString+"' data-target='#myModal' data-toggle='modal'>Update</button></td>";
     tableData += "<td><button class='btn btn-danger delete' data-movie-id="+snapData.id+">Delete</button></td></tr>";
     
     $(".table").append(tableData);
