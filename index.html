@@ -37,7 +37,7 @@
             </div>
             <div class="col-md-7 col-md-push-1">
                 <h3>Read/Update/Delete</h3>
-                <table class="table table-hover">
+                <table class="table table-hover" id="all-results-table">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -56,10 +56,22 @@
             <div class="col-md-8">
                 <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="search-item" placeholder="search for a movie" required>
+                        <label for="search-item">Search By Username:</label>
+                        <input type="text" class="form-control" id="search-item" placeholder="search movie reviewer by username" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="submit-search" data-target="#myModal" data-toggle="modal">Search</button>
+                    <button type="submit" class="btn btn-primary" id="submit-search">Search</button>
                 </form>
+                <table class="table table-hover" id="results-table">
+                    <h3>Results of Movies By Username</h3>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Favorite Movie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
         <!-- Modal -->

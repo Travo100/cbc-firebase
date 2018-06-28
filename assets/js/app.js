@@ -67,7 +67,7 @@ database.ref("/movies").on("child_added", function (snap) {
     tableData += "<td><button class='btn btn-info edit snap-update-button' data-movie-object='" + snapDataString + "' data-target='#myModal' data-toggle='modal'>Update</button></td>";
     tableData += "<td><button class='btn btn-danger delete' data-movie-id=" + snapData.id + ">Delete</button></td></tr>";
 
-    $(".table").append(tableData);
+    $("#all-results-table tbody").append(tableData);
 });
 
 //listen for when a child has changed 
@@ -113,14 +113,22 @@ $(document).on("click", ".delete", function (e) {
     database.ref("/movies/" + buttonId).remove();
 });
 
-$("#submit-search").on("click", function(e){
+$("#submit-search").on("click", function (e) {
     e.preventDefault();
-    var movieTitle = $("#search-item").val().trim();
-    searchForMovieByTitle(movieTitle);
+    var reviewerName = $("#search-item").val().trim();
+    $("#results-table tbody").empty();
+    searchForMovieByTitle(reviewerName);
 });
 
-function searchForMovieByTitle(title) {
-    database.ref("/movies").orderByChild("favMovie").equalTo(title).on("child_added", function(snapshot){
-        console.log(snapshot.val());
+function searchForMovieByTitle(reviewer) {
+    database.ref("/movies").orderByChild("name").equalTo(reviewer).on("child_added", function (snapshot) {
+        var snapData = snapshot.val();
+        var tableData = "<tr>";
+        tableData += "<td class='snap-name'>" + snapData.name + "</td>";
+        tableData += "<td class='snap-movie'>" + snapData.favMovie + "</td>";
+        tableData += "</tr>";
+        $("#results-table tbody").append(tableData);
+    }, function (errorObject) {
+        console.log(errorObject);
     });
 }
