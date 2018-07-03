@@ -1,6 +1,9 @@
 var database = firebase.database();
 var updateId = "";
 
+
+// DEMO for a pull request
+
 function submitDataToFirebase(name, favMovie) {
     if (name && favMovie) {
         // Push the name and favMovie for someone to the movies collection
