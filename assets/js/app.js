@@ -1,9 +1,6 @@
 var database = firebase.database();
 var updateId = "";
 
-
-// DEMO for a pull request
-
 function submitDataToFirebase(name, favMovie) {
     if (name && favMovie) {
         // Push the name and favMovie for someone to the movies collection
@@ -111,7 +108,7 @@ $(document).on("click", ".edit", function (e) {
 });
 
 $(document).on("click", ".delete", function (e) {
-    e.preventDefault()
+    e.preventDefault();
     var buttonId = $(this).attr("data-movie-id");
     database.ref("/movies/" + buttonId).remove();
 });
